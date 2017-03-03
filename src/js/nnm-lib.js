@@ -1,50 +1,11 @@
 
-const seq       = to                  => new Array(to).fill(false).map( (_, i) => i);
-      randTime  = (slow, fast)        => slow + Math.trunc( Math.random() * (fast-slow) ),
-      randTimes = (count, slow, fast) => seq(count).map( _ => randTime(slow, fast) );
+import { runMetrics } from './metrics.js';
 
 
 
 
 
-const promiseLater = async (time, index, behavior, context) => {
-
-    return new Promise( (resolve, reject) => {
-
-        window.setTimeout(() => {
-            behavior(context, index, resolve, reject);
-        }, time);
-
-    });
-
-}
-
-
-
-
-
-const cpu = () => new Promise( (resolve, reject) => resolve('cpu auto-pass') );
-const ram = () => new Promise( (resolve, reject) => resolve('ram auto-pass') );
-
-const promiseLookup = { cpu, ram };
-
-const getMetrics = (whichMetrics = ['cpu','ram']) => whichMetrics.map(key => promiseLookup[key]);
-const runMetrics = (whichMetrics = ['cpu','ram']) => whichMetrics.map(key => promiseLookup[key]());
-
-
-
-
-
-const llog = (context, index, resolve, reject) => { console.log(index + ': ' + context); resolve(1); }
-const flog = (context, index, resolve, reject) => { console.log(index + ': ' + context); reject(); }
-
-
-
-
-
-const manyLaterPromises = (count, slow, fast, behavior, context) => {
-    return randTimes(count, slow, fast).map( (time, i) => promiseLater( time, i, behavior, context ));
-}
+const seq = to => new Array(to).fill(false).map( (_, i) => i);
 
 
 
@@ -61,15 +22,18 @@ const boundedAll = promiseArray => {
 
     } );
 
-}
+};
 
 
 
 
 
-const monitorTick = config =>
+const monitorTick = ({ promises = runMetrics() } = {}) =>
 
-    boundedAll(config.promises).then(res => console.log('Result:\n------\n\n' + JSON.stringify(res)));
+    boundedAll(promises);
 
-const uTick = () => monitorTick({ promises: manyLaterPromises(25, 1500, 5000, llog, 'abc') });
-const vTick = () => monitorTick({ promises: runMetrics() });
+
+
+
+
+export { monitorTick, boundedAll, seq };
