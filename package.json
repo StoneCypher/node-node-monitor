@@ -1,0 +1,28 @@
+{
+  "name": "node-node-monitor",
+  "version": "0.1.0",
+  "description": "A monitor of physical server nodes, for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StoneCypher/node-node-monitor.git"
+  },
+  "keywords": [
+    "node",
+    "monitor",
+    "resources",
+    "resource",
+    "uptime",
+    "cpu",
+    "disk"
+  ],
+  "author": "John Haugeland <stonecypher@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StoneCypher/node-node-monitor/issues"
+  },
+  "homepage": "https://github.com/StoneCypher/node-node-monitor#readme"
+}
